@@ -1,7 +1,7 @@
 import "./App.css";
 
 import { useState, useEffect, useRef } from "react";
-import ReactFlow from "react-flow-renderer";
+import ReactFlow, { Background } from "react-flow-renderer";
 import TextField from "@mui/material/TextField";
 
 function App() {
@@ -146,12 +146,48 @@ function App() {
         width: 300,
       },
     },
-    { id: "e1-1.2", source: "one", target: "one-one", animated: false },
-    { id: "e1-1.1", source: "one", target: "one-two", animated: false },
-    { id: "e1.1-2.1", source: "one-one", target: "two-one", animated: false },
-    { id: "e1.2-2.2", source: "one-two", target: "two-two", animated: false },
-    { id: "e2.1-3", source: "two-one", target: "three", animated: false },
-    { id: "e2.2-3", source: "two-two", target: "three", animated: false },
+    {
+      id: "e1-1.2",
+      source: "one",
+      target: "one-one",
+      animated: false,
+      type: "smoothstep",
+    },
+    {
+      id: "e1-1.1",
+      source: "one",
+      target: "one-two",
+      animated: false,
+      type: "smoothstep",
+    },
+    {
+      id: "e1.1-2.1",
+      source: "one-one",
+      target: "two-one",
+      animated: false,
+      type: "smoothstep",
+    },
+    {
+      id: "e1.2-2.2",
+      source: "one-two",
+      target: "two-two",
+      animated: false,
+      type: "smoothstep",
+    },
+    {
+      id: "e2.1-3",
+      source: "two-one",
+      target: "three",
+      animated: false,
+      type: "smoothstep",
+    },
+    {
+      id: "e2.2-3",
+      source: "two-two",
+      target: "three",
+      animated: false,
+      type: "smoothstep",
+    },
   ];
 
   useEffect(() => {
@@ -174,11 +210,13 @@ function App() {
   }, [node]);
 
   return (
-    <div className="app" style={{ height: 800 }}>
+    <div className="app" style={{ height: 500 }}>
       <h2> Values of Input: </h2>
       {node && node[0].one.inputValue} <br />
       {node && node[5].three.inputValue}
-      <ReactFlow elements={elements} />
+      <ReactFlow elements={elements}>
+        <Background variant="dots" gap={12} size={0.5} />
+      </ReactFlow>
     </div>
   );
 }
