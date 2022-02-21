@@ -29,7 +29,6 @@ function App() {
               const arr = [...node];
               arr[0].one.showInput = true;
               setNode(arr);
-              console.log(refs);
               setTimeout(() => {
                 refs.current[0].focus();
               }, 100);
@@ -43,6 +42,11 @@ function App() {
                   onBlur={() => {
                     const arr = [...node];
                     arr[0].one.showInput = false;
+                    setNode(arr);
+                  }}
+                  onChange={(e) => {
+                    const arr = [...node];
+                    arr[0].one.inputValue = e.target.value;
                     setNode(arr);
                   }}
                   value={node ? node[0].one.inputValue : ""}
@@ -116,11 +120,16 @@ function App() {
             <div>
               {node && node[5].three.showInput ? (
                 <TextField
-                  id="input-1"
+                  autoFocus={true}
                   size="small"
                   onBlur={() => {
                     const arr = [...node];
                     arr[5].three.showInput = false;
+                    setNode(arr);
+                  }}
+                  onChange={(e) => {
+                    const arr = [...node];
+                    arr[5].three.inputValue = e.target.value;
                     setNode(arr);
                   }}
                   value={node ? node[5].three.inputValue : ""}
@@ -166,6 +175,9 @@ function App() {
 
   return (
     <div className="app" style={{ height: 800 }}>
+      <h2> Values of Input: </h2>
+      {node && node[0].one.inputValue} <br />
+      {node && node[5].three.inputValue}
       <ReactFlow elements={elements} />
     </div>
   );
