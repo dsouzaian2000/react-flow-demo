@@ -3,12 +3,10 @@ import "./App.css";
 import { useState, useEffect, useRef } from "react";
 import ReactFlow, { Background } from "react-flow-renderer";
 import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 
 function App() {
   const [node, setNode] = useState();
-  const [refState, setRefs] = useState([]);
-
-  const refs = useRef([]);
 
   const elements = [
     {
@@ -17,66 +15,87 @@ function App() {
       data: {
         label: (
           <div
-            style={{
-              width: 300,
-              height: 30,
-              marginTop: "0px",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-            }}
+            className="node-container"
             onClick={() => {
               const arr = [...node];
               arr[0].one.showInput = true;
               setNode(arr);
-              setTimeout(() => {
-                refs.current[0].focus();
-              }, 100);
             }}
           >
             <div>
               {node && node[0].one.showInput ? (
-                <TextField
-                  autoFocus={true}
-                  size="small"
-                  onBlur={() => {
-                    const arr = [...node];
-                    arr[0].one.showInput = false;
-                    setNode(arr);
-                  }}
-                  onChange={(e) => {
-                    const arr = [...node];
-                    arr[0].one.inputValue = e.target.value;
-                    setNode(arr);
-                  }}
-                  value={node ? node[0].one.inputValue : ""}
-                />
+                <div className="node-text-container">
+                  <TextField
+                    autoFocus={true}
+                    size="small"
+                    onBlur={() => {
+                      const arr = [...node];
+                      arr[0].one.showInput = false;
+                      setNode(arr);
+                    }}
+                    onChange={(e) => {
+                      const arr = [...node];
+                      arr[0].one.inputValue = e.target.value;
+                      setNode(arr);
+                    }}
+                    onKeyPress={(e) => {
+                      if (e.key === "Enter") {
+                        const arr = [...node];
+                        arr[0].one.showInput = false;
+                        setNode(arr);
+                      }
+                    }}
+                    value={node ? node[0].one.inputValue : ""}
+                    fullWidth
+                  />
+                  &nbsp;
+                  <Button id="submit-button" variant="contained" size="small">
+                    Submit
+                  </Button>
+                </div>
               ) : (
-                <p> Are you married ? </p>
+                <div className="node-text-container">
+                  <p>
+                    1.{" "}
+                    {node && node[0].one.inputValue !== ""
+                      ? node[0].one.inputValue
+                      : "Are you married ?"}
+                  </p>
+                  <span className="question-badge">YES/NO</span>
+                </div>
               )}
             </div>
           </div>
         ),
       },
-      position: { x: 200, y: 5 },
+      position: { x: 200, y: 50 },
       style: {
-        width: 300,
+        width: 500,
+        border: "none",
+        borderRadius: 10,
+        padding: "1rem 0rem",
       },
     },
     {
       id: "one-one",
       data: { label: "if ans === yes" },
-      position: { x: 100, y: 100 },
+      position: { x: 50, y: 200 },
       style: {
-        width: 200,
+        width: 300,
+        border: "none",
+        borderRadius: 10,
+        padding: "1rem 0rem",
       },
     },
     {
       id: "one-two",
       data: { label: "if ans === no" },
-      position: { x: 400, y: 100 },
+      position: { x: 550, y: 200 },
       style: {
-        width: 200,
+        width: 300,
+        border: "none",
+        borderRadius: 10,
+        padding: "1rem 0rem",
       },
     },
     {
@@ -84,17 +103,23 @@ function App() {
       data: {
         label: "2.1. What is the name of your spouse?",
       },
-      position: { x: 100, y: 200 },
+      position: { x: 50, y: 300 },
       style: {
-        width: 200,
+        width: 300,
+        border: "none",
+        borderRadius: 10,
+        padding: "1rem 0rem",
       },
     },
     {
       id: "two-two",
       data: { label: "2.2. What is your DOB?" },
-      position: { x: 400, y: 200 },
+      position: { x: 550, y: 300 },
       style: {
-        width: 200,
+        width: 300,
+        border: "none",
+        borderRadius: 10,
+        padding: "1rem 0rem",
       },
     },
     {
@@ -103,14 +128,7 @@ function App() {
       data: {
         label: (
           <div
-            style={{
-              width: 300,
-              height: 30,
-              marginTop: "0px",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-            }}
+            className="node-container"
             onClick={() => {
               const arr = [...node];
               arr[5].three.showInput = true;
@@ -119,31 +137,56 @@ function App() {
           >
             <div>
               {node && node[5].three.showInput ? (
-                <TextField
-                  autoFocus={true}
-                  size="small"
-                  onBlur={() => {
-                    const arr = [...node];
-                    arr[5].three.showInput = false;
-                    setNode(arr);
-                  }}
-                  onChange={(e) => {
-                    const arr = [...node];
-                    arr[5].three.inputValue = e.target.value;
-                    setNode(arr);
-                  }}
-                  value={node ? node[5].three.inputValue : ""}
-                />
+                <div className="node-text-container">
+                  <TextField
+                    autoFocus={true}
+                    size="small"
+                    onBlur={() => {
+                      const arr = [...node];
+                      arr[5].three.showInput = false;
+                      setNode(arr);
+                    }}
+                    onChange={(e) => {
+                      const arr = [...node];
+                      arr[5].three.inputValue = e.target.value;
+                      setNode(arr);
+                    }}
+                    onKeyPress={(e) => {
+                      if (e.key === "Enter") {
+                        const arr = [...node];
+                        arr[5].three.showInput = false;
+                        setNode(arr);
+                      }
+                    }}
+                    value={node ? node[5].three.inputValue : ""}
+                    fullWidth
+                  />
+                  &nbsp;
+                  <Button id="submit-button" variant="contained" size="small">
+                    Submit
+                  </Button>
+                </div>
               ) : (
-                <p> Enter your PAN ID. </p>
+                <div className="node-text-container">
+                  <p>
+                    2.{" "}
+                    {node && node[5].three.inputValue !== ""
+                      ? node[5].three.inputValue
+                      : "Enter your PAN ID"}
+                  </p>
+                  <span className="question-badge">SHORT TEXT</span>
+                </div>
               )}
             </div>
           </div>
         ),
       },
-      position: { x: 200, y: 300 },
+      position: { x: 200, y: 400 },
       style: {
-        width: 300,
+        width: 500,
+        border: "none",
+        borderRadius: 10,
+        padding: "1rem 0rem",
       },
     },
     {
@@ -205,17 +248,15 @@ function App() {
     setNode(arr);
   }, []);
 
-  useEffect(() => {
-    if (node) refs.current = refs.current.slice(0, node.length);
-  }, [node]);
-
   return (
-    <div className="app" style={{ height: 500 }}>
-      <h2> Values of Input: </h2>
-      {node && node[0].one.inputValue} <br />
-      {node && node[5].three.inputValue}
+    <div
+      id="main-div"
+      className="app"
+      style={{ height: 500, marginTop: "5rem" }}
+    >
+      <h1> &nbsp;Node Box </h1>
       <ReactFlow elements={elements}>
-        <Background variant="dots" gap={12} size={0.5} />
+        <Background variant="lines" color="#E5E5E5" gap={1} size={0.5} />
       </ReactFlow>
     </div>
   );

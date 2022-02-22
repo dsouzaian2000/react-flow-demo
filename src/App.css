@@ -1,5 +1,6 @@
 body {
   box-sizing: border-box;
+  font-family: Poppins, sans-serif;
 }
 
 .app {
@@ -7,4 +8,23 @@ body {
 }
 .app div {
   font-size: 14px;
+}
+
+.node-container {
+  width: 90%;
+  margin: 0 auto;
+  height: 30;
+  margin-top: 0;
+}
+.node-text-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.question-badge {
+  background: #a0aec0;
+  border-radius: 2px;
+  color: #fff;
+  padding: 3px 4px;
+  height: 20px;
 }
