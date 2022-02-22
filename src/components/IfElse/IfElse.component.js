@@ -77,6 +77,9 @@ function IfElse() {
           source: item.source,
           target: item.target,
           type: "buttonedge",
+          data: {
+            onClick: () => alert("HERE"),
+          },
         });
       }
     });
