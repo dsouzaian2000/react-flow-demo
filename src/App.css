@@ -3,28 +3,9 @@ body {
   font-family: Poppins, sans-serif;
 }
 
-.app {
-  height: 800px;
-}
-.app div {
-  font-size: 14px;
-}
-
-.node-container {
-  width: 90%;
-  margin: 0 auto;
-  height: 30;
-  margin-top: 0;
-}
-.node-text-container {
+.buttons-group {
+  margin-bottom: 1rem;
   display: flex;
+  width: 200px;
   justify-content: space-between;
-  align-items: center;
-}
-.question-badge {
-  background: #a0aec0;
-  border-radius: 2px;
-  color: #fff;
-  padding: 3px 4px;
-  height: 20px;
 }
