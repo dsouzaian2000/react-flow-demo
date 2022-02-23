@@ -19,76 +19,69 @@ const questionStyle = {
   borderRadius: 10,
   padding: "1rem 0rem",
 };
+const ifElseStyle = {
+  width: 300,
+  border: "none",
+  borderRadius: 10,
+  padding: "1rem 0rem",
+};
 
 const edgeTypes = {
   buttonedge: ButtonEdge,
 };
 
-const data = [
-  {
-    id: "one",
-    node_id: 0,
-    question: "Are you married ?",
-    type: "YES/NO",
-    position: { x: 200, y: 50 },
-  },
-  {
-    id: "two",
-    node_id: 1,
-    question: "What is your PAN number ?",
-    type: "SHORT TEXT",
-    position: { x: 200, y: 200 },
-  },
-  {
-    id: "1-2",
-    source: "one",
-    target: "two",
-  },
-];
-
 function IfElse() {
   const context = useContext(GlobalContext);
-  const { node, setNode } = context;
-
-  const [nodeElements, setNodeElements] = useState([]);
+  const {
+    node,
+    setNode,
+    nodeData,
+    setNodeData,
+    nodeElements,
+    setNodeElements,
+  } = context;
 
   useEffect(() => {
     const arr = [];
-    data.forEach((item, index) => {
+    nodeData.forEach((item, index) => {
+      let arr1 = {};
       if (!item.source) {
-        arr.push({
+        arr1 = {
           id: item.id,
           data: {
-            label: (
-              <QuestionNode
-                index={index}
-                id={item.id}
-                question={item.question}
-                type={item.type}
-              />
-            ),
+            question: item.question,
+            qType: item.qType,
           },
           position: item.position,
-          style: questionStyle,
-        });
+        };
+        if (item.type === "default") {
+          arr1.data.label = (
+            <QuestionNode qNo={item.qNo} index={index} id={item.id} />
+          );
+          arr1.style = questionStyle;
+        }
+        if (item.type === "if-else") {
+          arr1.data = { label: item.condition };
+          arr1.style = ifElseStyle;
+        }
       } else {
-        arr.push({
+        arr1 = {
           id: item.id,
           source: item.source,
           target: item.target,
-          type: "buttonedge",
-          data: {
-            onClick: () => alert("HERE"),
-          },
-        });
+        };
+        if (item.eType === "default") {
+          arr1.type = "buttonedge";
+        }
       }
+      arr.push(arr1);
     });
     setNodeElements(arr);
-  }, []);
+  }, [nodeData]);
 
   useEffect(() => {
     const arr1 = [];
-    data.forEach((item, index) => {
+    nodeData.forEach((item, index) => {
       if (!item.source) {
         const arr = {};
         arr[item.id] = {
@@ -99,7 +92,7 @@ function IfElse() {
       }
     });
     setNode(arr1);
-  }, []);
+  }, [nodeElements]);
 
   return (
     <div className={styles.container}>

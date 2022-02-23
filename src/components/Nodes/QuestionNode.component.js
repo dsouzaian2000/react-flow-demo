@@ -7,9 +7,9 @@ import Button from "@mui/material/Button";
 
 import { GlobalContext } from "../../GlobalContext";
 
-const QuestionNode = ({ index, id, question, type }) => {
+const QuestionNode = ({ index, id, question, type, qNo }) => {
   const context = useContext(GlobalContext);
-  const { node, setNode } = context;
+  const { node, setNode, nodeElements, setNodeElements } = context;
 
   return (
     <div
@@ -21,7 +21,7 @@ const QuestionNode = ({ index, id, question, type }) => {
       }}
     >
       <div>
-        {node.length !== 0 && node[index][id].showInput ? (
+        {node[index] && node[index][id].showInput ? (
           <div className={styles.node_text_container}>
             <TextField
               autoFocus={true}
@@ -54,12 +54,14 @@ const QuestionNode = ({ index, id, question, type }) => {
         ) : (
           <div className={styles.node_text_container}>
             <p>
-              1.{" "}
-              {node.length !== 0 && node[index][id].inputValue !== ""
+              {qNo}.{" "}
+              {node[index] && node[index][id].inputValue !== ""
                 ? node[index][id].inputValue
-                : question}
+                : nodeElements[index].data.question}
             </p>
-            <span className={styles.question_badge}>{type}</span>
+            <span className={styles.question_badge}>
+              {nodeElements[index].data.qType}
+            </span>
           </div>
         )}
       </div>
