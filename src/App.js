@@ -49,14 +49,7 @@ const data = [
     position: { x: 200, y: 650 },
     type: "default",
   },
-  {
-    id: "6",
-    qNo: 6,
-    question: "Enter your address.",
-    qType: "SHORT TEXT",
-    position: { x: 200, y: 800 },
-    type: "default",
-  },
+
   {
     id: "1-2",
     source: "1",

@@ -75,6 +75,7 @@ function Default() {
         borderRadius: 10,
         padding: "1rem 0rem",
       },
+      nodeType: "default",
     },
     {
       id: "one-one",
@@ -86,6 +87,7 @@ function Default() {
         borderRadius: 10,
         padding: "1rem 0rem",
       },
+      nodeType: "if-else",
     },
     {
       id: "one-two",
@@ -249,7 +251,14 @@ function Default() {
       <ReactFlow elements={elements} defaultZoom={0.8}>
         <Background variant="lines" color="#E5E5E5" gap={1} size={0.5} />
         <MiniMap
-          nodeColor={customMinimap ? "#3F7AAC" : "#ffffff"}
+          nodeColor={(n) => {
+            if (n.style?.background) return n.style.background;
+            if (n.nodeType === "default") return "#0041d0";
+            if (n.nodeType === "if-else") return "#ff0072";
+            if (n.type === "default") return "#1a192b";
+
+            return "#eee";
+          }}
           nodeBorderRadius={customMinimap ? 20 : 0}
           style={{ background: customMinimap ? "#96ACAC" : "#fff" }}
         />

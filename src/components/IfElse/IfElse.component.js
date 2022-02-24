@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useContext } from "react";
-import ReactFlow, { Background, Controls } from "react-flow-renderer";
+import ReactFlow, { Background, Controls, MiniMap } from "react-flow-renderer";
 
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -48,6 +48,7 @@ function IfElse() {
       if (!item.source) {
         arr1 = {
           id: item.id,
+          nodeType: item.type,
           data: {
             question: item.question,
             qType: item.qType,
@@ -101,7 +102,22 @@ function IfElse() {
         edgeTypes={edgeTypes}
         elements={nodeElements}
         defaultZoom={0.7}
+        onLoad={() => {
+          setTimeout(() => {
+            document.querySelector(".react-flow__controls-fitview").click();
+          }, 100);
+        }}
       >
+        <MiniMap
+          nodeColor={(n) => {
+            if (n.style?.background) return n.style.background;
+            if (n.nodeType === "default") return "#0041d0";
+            if (n.nodeType === "if-else") return "#ff0072";
+            return "#eee";
+          }}
+          nodeBorderRadius={20}
+          style={{ background: "#96ACAC" }}
+        />
         <Background variant="lines" color="#E5E5E5" gap={1} size={0.5} />
         <Controls />{" "}
       </ReactFlow>
