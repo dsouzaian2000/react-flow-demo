@@ -11,6 +11,14 @@ const QuestionNode = ({ index, id, question, type, qNo }) => {
   const context = useContext(GlobalContext);
   const { node, setNode, nodeElements, setNodeElements } = context;
 
+  const edgeAnimation = (show) => {
+    const arr = [...nodeElements];
+    arr.map((item, index) => {
+      if (item.source === id || item.target === id) arr[index].animated = show;
+    });
+    setNodeElements(arr);
+  };
+
   return (
     <div
       className={styles.node_container}
@@ -19,6 +27,8 @@ const QuestionNode = ({ index, id, question, type, qNo }) => {
         arr[index][id].showInput = true;
         setNode(arr);
       }}
+      onMouseOver={() => edgeAnimation(true)}
+      onMouseOut={() => edgeAnimation(false)}
     >
       <div>
         {node[index] && node[index][id].showInput ? (

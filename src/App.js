@@ -58,7 +58,7 @@ const data = [
 ];
 
 const App = () => {
-  const [component, setComponent] = useState(0);
+  const [component, setComponent] = useState(1);
 
   const [node, setNode] = useState([]);
   const [nodeData, setNodeData] = useState(data);

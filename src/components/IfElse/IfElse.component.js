@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useContext } from "react";
-import ReactFlow, { Background } from "react-flow-renderer";
+import ReactFlow, { Background, Controls } from "react-flow-renderer";
 
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -69,6 +69,7 @@ function IfElse() {
           id: item.id,
           source: item.source,
           target: item.target,
+          animated: false,
         };
         if (item.eType === "default") {
           arr1.type = "buttonedge";
@@ -96,8 +97,13 @@ function IfElse() {
 
   return (
     <div className={styles.container}>
-      <ReactFlow edgeTypes={edgeTypes} elements={nodeElements}>
+      <ReactFlow
+        edgeTypes={edgeTypes}
+        elements={nodeElements}
+        defaultZoom={0.7}
+      >
         <Background variant="lines" color="#E5E5E5" gap={1} size={0.5} />
+        <Controls />{" "}
       </ReactFlow>
     </div>
   );
