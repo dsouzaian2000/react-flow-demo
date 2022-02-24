@@ -95,6 +95,18 @@ export default function CustomEdge({
     arr[elseQIndex].position.y = arr[ifQIndex].position.y;
 
     arr.map((item, index) => {
+      if (
+        parseInt(item.source) ===
+        parseInt(
+          arr[arr.findIndex((el) => el.qNo === arr[elseQIndex + 1].qNo)].id
+        )
+      ) {
+        arr[index].target = (parseInt(arr[index].target) + 2).toString();
+        arr[index].source = (parseInt(arr[index].target) + 2).toString();
+      }
+    });
+
+    arr.map((item, index) => {
       if (index > elseQIndex && !item.source) {
         item.position.y = item.position.y - 150;
       }
@@ -104,6 +116,24 @@ export default function CustomEdge({
       arr.findIndex((el) => el.id === eid),
       1
     );
+    arr.map((item, index) => {
+      if (
+        item.source === (parseInt(target) + 1).toString() ||
+        item.target === (parseInt(target) + 1).toString()
+      ) {
+        arr.splice(index, 1);
+      }
+    });
+    arr.map((item, index) => {
+      if (item.target === arr[ifQIndex].id) {
+        arr.splice(index, 1);
+      }
+    });
+    arr.map((item, index) => {
+      if (item.target === arr[elseQIndex].id) {
+        arr.splice(index, 1);
+      }
+    });
 
     arr.push({
       id: source + "_" + target,
@@ -117,12 +147,12 @@ export default function CustomEdge({
     });
 
     arr.push({
-      id: target + "-" + arr[ifQIndex].id,
+      id: target + "_" + arr[ifQIndex].id,
       source: target,
       target: arr[ifQIndex].id,
     });
     arr.push({
-      id: (parseInt(target) + 1).toString() + "-" + arr[elseQIndex].id,
+      id: (parseInt(target) + 1).toString() + "_" + arr[elseQIndex].id,
       source: (parseInt(target) + 1).toString(),
       target: arr[elseQIndex].id,
     });
@@ -143,6 +173,22 @@ export default function CustomEdge({
         arr[arr.findIndex((el) => el.qNo === arr[elseQIndex + 1].qNo)].id,
       source: arr[elseQIndex].id,
       target: arr[arr.findIndex((el) => el.qNo === arr[elseQIndex + 1].qNo)].id,
+    });
+    arr.push({
+      id:
+        arr[arr.findIndex((el) => el.qNo === arr[elseQIndex + 1].qNo)].id +
+        "-" +
+        (
+          parseInt(
+            arr[arr.findIndex((el) => el.qNo === arr[elseQIndex + 1].qNo)].id
+          ) + 1
+        ).toString(),
+      source: arr[arr.findIndex((el) => el.qNo === arr[elseQIndex + 1].qNo)].id,
+      target: (
+        parseInt(
+          arr[arr.findIndex((el) => el.qNo === arr[elseQIndex + 1].qNo)].id
+        ) + 1
+      ).toString(),
     });
 
     setNodeData(arr);

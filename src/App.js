@@ -50,10 +50,33 @@ const data = [
     type: "default",
   },
   {
+    id: "6",
+    qNo: 6,
+    question: "Enter your address.",
+    qType: "SHORT TEXT",
+    position: { x: 200, y: 800 },
+    type: "default",
+  },
+  {
     id: "1-2",
     source: "1",
     target: "2",
     eType: "default",
+  },
+  {
+    id: "2-3",
+    source: "2",
+    target: "3",
+  },
+  {
+    id: "3-4",
+    source: "3",
+    target: "4",
+  },
+  {
+    id: "4-5",
+    source: "4",
+    target: "5",
   },
 ];
 

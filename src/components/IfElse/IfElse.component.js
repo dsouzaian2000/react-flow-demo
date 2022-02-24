@@ -93,7 +93,7 @@ function IfElse() {
       }
     });
     setNode(arr1);
-  }, [nodeElements]);
+  }, [nodeElements.length]);
 
   return (
     <div className={styles.container}>
