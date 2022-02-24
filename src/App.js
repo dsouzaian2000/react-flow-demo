@@ -58,7 +58,7 @@ const data = [
 ];
 
 const App = () => {
-  const [component, setComponent] = useState(1);
+  const [component, setComponent] = useState(0);
 
   const [node, setNode] = useState([]);
   const [nodeData, setNodeData] = useState(data);
@@ -75,7 +75,10 @@ const App = () => {
         setNodeElements,
       }}
     >
-      <h1 style={{ marginTop: "5rem" }}> &nbsp; NODE BOX </h1>
+      {component === 0 && <Default />}
+      {component === 1 && <IfElse />}
+
+      <h1 style={{ marginTop: "0rem" }}> &nbsp; NODE BOX </h1>
       <div className="buttons-group">
         <Button onClick={() => setComponent(0)} variant="outlined">
           Default
@@ -84,8 +87,6 @@ const App = () => {
           If-Else
         </Button>
       </div>
-      {component === 0 && <Default />}
-      {component === 1 && <IfElse />}
     </GlobalContext.Provider>
   );
 };

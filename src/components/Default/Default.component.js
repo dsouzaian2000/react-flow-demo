@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import ReactFlow, { Background } from "react-flow-renderer";
+import ReactFlow, { Background, MiniMap, Controls } from "react-flow-renderer";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
@@ -194,42 +194,36 @@ function Default() {
       source: "one",
       target: "one-one",
       animated: false,
-      type: "smoothstep",
     },
     {
       id: "e1-1.1",
       source: "one",
       target: "one-two",
       animated: false,
-      type: "smoothstep",
     },
     {
       id: "e1.1-2.1",
       source: "one-one",
       target: "two-one",
       animated: false,
-      type: "smoothstep",
     },
     {
       id: "e1.2-2.2",
       source: "one-two",
       target: "two-two",
       animated: false,
-      type: "smoothstep",
     },
     {
       id: "e2.1-3",
       source: "two-one",
       target: "three",
       animated: false,
-      type: "smoothstep",
     },
     {
       id: "e2.2-3",
       source: "two-two",
       target: "three",
       animated: false,
-      type: "smoothstep",
     },
   ];
 
@@ -248,10 +242,27 @@ function Default() {
     setNode(arr);
   }, []);
 
+  const [customMinimap, setCustomMinimap] = useState(false);
+
   return (
     <div className={styles.container}>
-      <ReactFlow elements={elements}>
+      <ReactFlow elements={elements} defaultZoom={0.8}>
         <Background variant="lines" color="#E5E5E5" gap={1} size={0.5} />
+        <MiniMap
+          nodeColor={customMinimap ? "#3F7AAC" : "#ffffff"}
+          nodeBorderRadius={customMinimap ? 20 : 0}
+          style={{ background: customMinimap ? "#96ACAC" : "#fff" }}
+        />
+        <Controls />
+        <div className={styles.minimap_buttons}>
+          <Button
+            onClick={() => setCustomMinimap(!customMinimap)}
+            size="small"
+            variant="contained"
+          >
+            Custom Minimap
+          </Button>
+        </div>
       </ReactFlow>
     </div>
   );

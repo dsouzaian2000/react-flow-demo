@@ -1,5 +1,5 @@
 .container {
-  height: 800px;
+  height: 500px;
 }
 
 .node_container {
@@ -20,4 +20,10 @@
   padding: 2px 4px;
   height: 20px;
   font-size: 12px;
+}
+.minimap_buttons {
+  right: 0;
+  margin: 1rem;
+  position: absolute;
+  z-index: 4;
 }
