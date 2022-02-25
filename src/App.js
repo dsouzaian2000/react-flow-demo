@@ -49,6 +49,22 @@ const data = [
     position: { x: 200, y: 650 },
     type: "default",
   },
+  {
+    id: "5",
+    qNo: 5,
+    question: "What is your number ?",
+    qType: "SHORT TEXT",
+    position: { x: 200, y: 650 },
+    type: "default",
+  },
+  {
+    id: "6",
+    qNo: 6,
+    question: "Enter your address",
+    qType: "SHORT TEXT",
+    position: { x: 200, y: 800 },
+    type: "default",
+  },
 
   {
     id: "1-2",
@@ -70,6 +86,11 @@ const data = [
     id: "4-5",
     source: "4",
     target: "5",
+  },
+  {
+    id: "5-6",
+    source: "5",
+    target: "6",
   },
 ];
 

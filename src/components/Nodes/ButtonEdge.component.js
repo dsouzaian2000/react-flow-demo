@@ -55,32 +55,31 @@ export default function CustomEdge({
   const onEdgeClick = (evt, source, target, eid) => {
     evt.stopPropagation();
     const arr = [...nodeData];
-    const sourceId = parseInt(target);
-    const sourcePositionX = nodeElements[sourceId - 1].position.x;
-    const sourcePositionY = nodeElements[sourceId - 1].position.y;
+    const sourceId = parseInt(source);
+    const sourcePositionX = nodeElements[sourceId].position.x;
+    const sourcePositionY = nodeElements[sourceId].position.y;
 
     const ifQ = 2;
     const elseQ = 3;
 
     arr.splice(
-      sourceId - 1,
+      sourceId,
       0,
       {
-        id: sourceId.toString(),
+        id: (sourceId + 1).toString(),
         condition: "if YES",
         position: { x: sourcePositionX - 200, y: sourcePositionY },
         type: "if-else",
       },
       {
-        id: (sourceId + 1).toString(),
+        id: (sourceId + 2).toString(),
         condition: "if NO",
         position: { x: sourcePositionX + 400, y: sourcePositionY },
         type: "if-else",
       }
     );
-
     arr.map((item, index) => {
-      if (index > sourceId && !item.source) {
+      if (index > sourceId + 1 && !item.source) {
         item.id = (index + 1).toString();
         item.position.y = item.position.y + 150;
       }
@@ -190,6 +189,8 @@ export default function CustomEdge({
         ) + 1
       ).toString(),
     });
+
+    console.log(arr);
 
     setNodeData(arr);
   };
