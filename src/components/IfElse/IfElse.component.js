@@ -43,6 +43,7 @@ function IfElse() {
 
   useEffect(() => {
     const arr = [];
+
     nodeData.forEach((item, index) => {
       let arr1 = {};
       if (!item.source) {

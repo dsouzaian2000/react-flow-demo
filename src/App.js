@@ -97,9 +97,12 @@ const data = [
 const App = () => {
   const [component, setComponent] = useState(1);
 
-  const [node, setNode] = useState([]);
-  const [nodeData, setNodeData] = useState(data);
+  //state for flow
   const [nodeElements, setNodeElements] = useState([]);
+  //state for node input management
+  const [node, setNode] = useState([]);
+  //state for data in flow
+  const [nodeData, setNodeData] = useState(data);
 
   return (
     <GlobalContext.Provider

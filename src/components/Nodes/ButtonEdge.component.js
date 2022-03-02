@@ -54,14 +54,17 @@ export default function CustomEdge({
 
   const onEdgeClick = (evt, source, target, eid) => {
     evt.stopPropagation();
+
     const arr = [...nodeData];
     const sourceId = parseInt(source);
     const sourcePositionX = nodeElements[sourceId].position.x;
     const sourcePositionY = nodeElements[sourceId].position.y;
 
+    //questions to branch to
     const ifQ = 2;
     const elseQ = 3;
 
+    //add the if-else nodes in the flow after source question
     arr.splice(
       sourceId,
       0,
@@ -78,6 +81,8 @@ export default function CustomEdge({
         type: "if-else",
       }
     );
+
+    //increment the y-position & id of all elements after if-else
     arr.map((item, index) => {
       if (index > sourceId + 1 && !item.source) {
         item.id = (index + 1).toString();
@@ -88,11 +93,14 @@ export default function CustomEdge({
     const ifQIndex = arr.findIndex((el) => el.qNo === ifQ);
     const elseQIndex = arr.findIndex((el) => el.qNo === elseQ);
 
+    //change x-position of the branching questions
     arr[ifQIndex].position.x = sourcePositionX - 300;
     arr[elseQIndex].position.x = sourcePositionX + 300;
 
+    //change y-position of to align both questions together
     arr[elseQIndex].position.y = arr[ifQIndex].position.y;
 
+    //increment the targets and sources of links to accomodate 2 new elements
     arr.map((item, index) => {
       if (
         parseInt(item.source) ===
@@ -105,12 +113,14 @@ export default function CustomEdge({
       }
     });
 
+    //decrement y-position to accomadate the element that has shifted
     arr.map((item, index) => {
       if (index > elseQIndex && !item.source) {
         item.position.y = item.position.y - 150;
       }
     });
 
+    //breaking and chaining links of the nodes that have shifted
     arr.splice(
       arr.findIndex((el) => el.id === eid),
       1
@@ -189,8 +199,6 @@ export default function CustomEdge({
         ) + 1
       ).toString(),
     });
-
-    console.log(arr);
 
     setNodeData(arr);
   };

@@ -13,6 +13,7 @@ const QuestionNode = ({ index, id, question, type, qNo }) => {
 
   const edgeAnimation = (show) => {
     const arr = [...nodeElements];
+    //change animation of connected links on hover
     arr.map((item, index) => {
       if (item.source === id || item.target === id) arr[index].animated = show;
     });
@@ -23,6 +24,7 @@ const QuestionNode = ({ index, id, question, type, qNo }) => {
     <div
       className={styles.node_container}
       onClick={() => {
+        //show TextField on nodeClick
         const arr = [...node];
         arr[index][id].showInput = true;
         setNode(arr);
@@ -37,6 +39,7 @@ const QuestionNode = ({ index, id, question, type, qNo }) => {
               autoFocus={true}
               size="small"
               onBlur={() => {
+                //unmount TextField
                 const arr = [...node];
                 arr[index][id].showInput = false;
                 setNode(arr);
