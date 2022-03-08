@@ -7,6 +7,7 @@ import { GlobalContext } from "./GlobalContext";
 
 import Default from "./components/Default/Default.component";
 import IfElse from "./components/IfElse/IfElse.component";
+import DualScreen from "./components/DualScreen/DualScreen.component";
 
 const data = [
   {
@@ -95,7 +96,7 @@ const data = [
 ];
 
 const App = () => {
-  const [component, setComponent] = useState(1);
+  const [component, setComponent] = useState(2);
 
   //state for flow
   const [nodeElements, setNodeElements] = useState([]);
@@ -117,16 +118,21 @@ const App = () => {
     >
       {component === 0 && <Default />}
       {component === 1 && <IfElse />}
+      {component === 2 && <DualScreen />}
 
-      <h1 style={{ marginTop: "0rem" }}> &nbsp; NODE BOX </h1>
-      <div className="buttons-group">
-        <Button onClick={() => setComponent(0)} variant="outlined">
-          Default
-        </Button>
-        <Button onClick={() => setComponent(1)} variant="outlined">
-          If-Else
-        </Button>
-      </div>
+      {component !== 2 && (
+        <>
+          <h1 style={{ marginTop: "0rem" }}> &nbsp; NODE BOX </h1>
+          <div className="buttons-group">
+            <Button onClick={() => setComponent(0)} variant="outlined">
+              Default
+            </Button>
+            <Button onClick={() => setComponent(1)} variant="outlined">
+              If-Else
+            </Button>
+          </div>
+        </>
+      )}
     </GlobalContext.Provider>
   );
 };

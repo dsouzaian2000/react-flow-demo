@@ -1,0 +1,6 @@
+.minimap_buttons {
+  right: 0;
+  margin: 1rem;
+  position: absolute;
+  z-index: 4;
+}

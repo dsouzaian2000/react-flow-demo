@@ -120,7 +120,7 @@ function IfElse() {
           style={{ background: "#96ACAC" }}
         />
         <Background variant="lines" color="#E5E5E5" gap={1} size={0.5} />
-        <Controls />{" "}
+        <Controls />
       </ReactFlow>
     </div>
   );
