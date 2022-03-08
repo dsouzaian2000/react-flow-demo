@@ -4,3 +4,29 @@
   position: absolute;
   z-index: 4;
 }
+
+.sidebar {
+  left: 0;
+  margin: 1rem;
+  position: absolute;
+  z-index: 4;
+}
+
+.input {
+  padding: 5px 20px;
+  border: solid 1px blue;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+.output {
+  padding: 5px 20px;
+  border: solid 1px red;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+.default {
+  padding: 5px 20px;
+  border: solid 1px green;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
