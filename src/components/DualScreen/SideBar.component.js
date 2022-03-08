@@ -3,8 +3,9 @@ import React from "react";
 import styles from "./DualScreen.module.css";
 
 const Sidebar = () => {
-  const onDragStart = (event, nodeType) => {
-    event.dataTransfer.setData("application/reactflow", nodeType);
+  const onDragStart = (event, nodeType, nodeText) => {
+    event.dataTransfer.setData("application/reactflow-type", nodeType);
+    event.dataTransfer.setData("application/reactflow-text", nodeText);
     event.dataTransfer.effectAllowed = "move";
   };
 
@@ -12,24 +13,24 @@ const Sidebar = () => {
     <aside className={styles.sidebar}>
       <div
         className={styles.input}
-        onDragStart={(event) => onDragStart(event, "input")}
+        onDragStart={(event) => onDragStart(event, "input", "Primitive Flow")}
         draggable
       >
-        Input Node
+        Primitive Flow
       </div>
       <div
         className={styles.default}
-        onDragStart={(event) => onDragStart(event, "default")}
+        onDragStart={(event) => onDragStart(event, "default", "App Flow")}
         draggable
       >
-        Default Node
+        App Flow
       </div>
       <div
         className={styles.output}
-        onDragStart={(event) => onDragStart(event, "output")}
+        onDragStart={(event) => onDragStart(event, "output", "Custom Flow")}
         draggable
       >
-        Output Node
+        Custom Flow
       </div>
     </aside>
   );

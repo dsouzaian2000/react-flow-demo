@@ -17,16 +17,19 @@
   border: solid 1px blue;
   margin-bottom: 5px;
   cursor: pointer;
+  text-align: center;
 }
 .output {
   padding: 5px 20px;
   border: solid 1px red;
   margin-bottom: 5px;
   cursor: pointer;
+  text-align: center;
 }
 .default {
   padding: 5px 20px;
   border: solid 1px green;
   margin-bottom: 5px;
   cursor: pointer;
+  text-align: center;
 }

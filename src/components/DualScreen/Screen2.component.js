@@ -13,73 +13,15 @@ import styles from "./DualScreen.module.css";
 let id = 0;
 const getId = () => `dndnode_${id++}`;
 
-const DnDFlow = ({ setSecondaryMap }) => {
-  const elements1 = [
-    {
-      id: "horizontal-1",
-      sourcePosition: "right",
-      type: "input",
-      className: "dark-node",
-      data: { label: "Input" },
-      position: { x: 0, y: 80 },
-    },
-
-    {
-      id: "horizontal-e1-2",
-      source: "horizontal-1",
-      target: "horizontal-2",
-      animated: true,
-    },
-    {
-      id: "horizontal-e1-3",
-      source: "horizontal-1",
-      target: "horizontal-3",
-      animated: true,
-    },
-    {
-      id: "horizontal-e1-4",
-      source: "horizontal-2",
-      target: "horizontal-4",
-      label: "edge label",
-    },
-    {
-      id: "horizontal-e3-5",
-      source: "horizontal-3",
-      target: "horizontal-5",
-      animated: true,
-    },
-    {
-      id: "horizontal-e3-6",
-      source: "horizontal-3",
-      target: "horizontal-6",
-      animated: true,
-    },
-    {
-      id: "horizontal-e5-7",
-      source: "horizontal-5",
-      target: "horizontal-7",
-      animated: true,
-    },
-    {
-      id: "horizontal-e6-8",
-      source: "horizontal-6",
-      target: "horizontal-8",
-      animated: true,
-    },
-  ];
-
+const DnDFlow = ({ setSecondaryMap, setElements, elements }) => {
   const reactFlowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
-  const [elements, setElements] = useState(elements1);
   const onConnect = (params) => setElements((els) => addEdge(params, els));
   const onElementsRemove = (elementsToRemove) =>
     setElements((els) => removeElements(elementsToRemove, els));
 
   const onLoad = (_reactFlowInstance) => {
     setReactFlowInstance(_reactFlowInstance);
-    setTimeout(() => {
-      document.querySelector(".react-flow__controls-fitview").click();
-    }, 100);
   };
 
   const onDragOver = (event) => {
@@ -91,19 +33,63 @@ const DnDFlow = ({ setSecondaryMap }) => {
     event.preventDefault();
 
     const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
-    const type = event.dataTransfer.getData("application/reactflow");
+    const type = event.dataTransfer.getData("application/reactflow-type");
+    const text = event.dataTransfer.getData("application/reactflow-text");
+
+    const xPosition = event.clientX - reactFlowBounds.left;
+    const yPosition = event.clientY - reactFlowBounds.top;
+
     const position = reactFlowInstance.project({
       x: event.clientX - reactFlowBounds.left,
       y: event.clientY - reactFlowBounds.top,
     });
-    const newNode = {
-      id: getId(),
-      type,
-      position,
-      sourcePosition: "right",
-      targetPosition: "left",
-      data: { label: `${type} node` },
-    };
+    const newNode = [
+      {
+        id: getId(),
+        type: "input",
+        position: {
+          x: xPosition,
+          y: yPosition,
+        },
+        sourcePosition: "right",
+        targetPosition: "left",
+        data: { label: "Flow 1" },
+      },
+      {
+        id: getId(),
+        type: "default",
+        position: {
+          x: xPosition + 250,
+          y: yPosition,
+        },
+        sourcePosition: "right",
+        targetPosition: "left",
+        data: { label: "Flow 2" },
+      },
+      {
+        id: getId(),
+        type: "output",
+        position: {
+          x: xPosition + 500,
+          y: yPosition,
+        },
+        sourcePosition: "right",
+        targetPosition: "left",
+        data: { label: "Flow 3" },
+      },
+      {
+        id: "horizontal-e6-8",
+        source: "dndnode_0",
+        target: "dndnode_1",
+      },
+      {
+        id: "horizontal-e6-8",
+        source: "dndnode_1",
+        target: "dndnode_2",
+      },
+    ];
+
+    console.log(newNode);
 
     setElements((es) => es.concat(newNode));
   };
@@ -111,7 +97,7 @@ const DnDFlow = ({ setSecondaryMap }) => {
   return (
     <ReactFlowProvider>
       <div
-        style={{ height: 350, borderTop: "solid 1px black" }}
+        style={{ height: "50vh", borderTop: "solid 1px black" }}
         ref={reactFlowWrapper}
       >
         <ReactFlow

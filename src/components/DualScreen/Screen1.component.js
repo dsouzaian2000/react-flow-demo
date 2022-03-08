@@ -18,8 +18,7 @@ const DnDFlow = ({ setSecondaryMap }) => {
       id: "horizontal-1",
       sourcePosition: "right",
       type: "input",
-      className: "dark-node",
-      data: { label: "Input" },
+      data: { label: "Question 1" },
       position: { x: 0, y: 80 },
     },
     {
@@ -27,7 +26,7 @@ const DnDFlow = ({ setSecondaryMap }) => {
       sourcePosition: "right",
       targetPosition: "left",
       data: {
-        label: <div onClick={() => setSecondaryMap(true)}> Node 2 </div>,
+        label: <div onClick={() => setSecondaryMap(true)}> Flow 1 </div>,
       },
       position: { x: 250, y: 0 },
     },
@@ -36,7 +35,7 @@ const DnDFlow = ({ setSecondaryMap }) => {
       sourcePosition: "right",
       targetPosition: "left",
       data: {
-        label: <div onClick={() => setSecondaryMap(true)}> Node 3</div>,
+        label: <div onClick={() => setSecondaryMap(true)}>Flow 2</div>,
       },
       position: { x: 250, y: 160 },
     },
@@ -44,14 +43,14 @@ const DnDFlow = ({ setSecondaryMap }) => {
       id: "horizontal-4",
       sourcePosition: "right",
       targetPosition: "left",
-      data: { label: "Node 4" },
+      data: { label: "Question 2" },
       position: { x: 500, y: 0 },
     },
     {
       id: "horizontal-5",
       sourcePosition: "right",
       targetPosition: "left",
-      data: { label: "Node 5" },
+      data: { label: "Question 3" },
       position: { x: 500, y: 100 },
     },
     {
@@ -78,7 +77,6 @@ const DnDFlow = ({ setSecondaryMap }) => {
       id: "horizontal-e1-4",
       source: "horizontal-2",
       target: "horizontal-4",
-      label: "edge label",
     },
     {
       id: "horizontal-e3-5",
@@ -117,7 +115,7 @@ const DnDFlow = ({ setSecondaryMap }) => {
   const onLoad = (_reactFlowInstance) => {
     setReactFlowInstance(_reactFlowInstance);
     setTimeout(() => {
-      document.querySelectorAll(".react-flow__controls-fitview")[1].click();
+      document.querySelectorAll(".react-flow__controls-fitview")[0].click();
     }, 100);
   };
 
@@ -130,7 +128,9 @@ const DnDFlow = ({ setSecondaryMap }) => {
     event.preventDefault();
 
     const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
-    const type = event.dataTransfer.getData("application/reactflow");
+    const type = event.dataTransfer.getData("application/reactflow-type");
+    const text = event.dataTransfer.getData("application/reactflow-text");
+
     const position = reactFlowInstance.project({
       x: event.clientX - reactFlowBounds.left,
       y: event.clientY - reactFlowBounds.top,
@@ -141,7 +141,7 @@ const DnDFlow = ({ setSecondaryMap }) => {
       position,
       sourcePosition: "right",
       targetPosition: "left",
-      data: { label: `${type} node` },
+      data: { label: text },
     };
 
     setElements((es) => es.concat(newNode));
@@ -149,7 +149,7 @@ const DnDFlow = ({ setSecondaryMap }) => {
 
   return (
     <ReactFlowProvider>
-      <div style={{ height: 350 }} ref={reactFlowWrapper}>
+      <div style={{ height: "50vh" }} ref={reactFlowWrapper}>
         <ReactFlow
           elements={elements}
           onConnect={onConnect}
