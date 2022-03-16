@@ -105,6 +105,9 @@ const App = () => {
   //state for data in flow
   const [nodeData, setNodeData] = useState(data);
 
+  //state for adjusting width on zoom
+  const [nodeWidth, setNodeWidth] = useState(250);
+
   return (
     <GlobalContext.Provider
       value={{
@@ -114,6 +117,8 @@ const App = () => {
         setNodeData,
         nodeElements,
         setNodeElements,
+        nodeWidth,
+        setNodeWidth,
       }}
     >
       {component === 0 && <Default />}

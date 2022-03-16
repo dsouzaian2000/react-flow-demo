@@ -18,6 +18,7 @@ const questionStyle = {
   border: "none",
   borderRadius: 10,
   padding: "1rem 0rem",
+  background: "red",
 };
 const ifElseStyle = {
   width: 300,

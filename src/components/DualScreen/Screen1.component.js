@@ -1,117 +1,143 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import ReactFlow, {
   ReactFlowProvider,
   addEdge,
-  removeElements,
   Controls,
-  Background,
+  useNodesState,
+  useEdgesState,
 } from "react-flow-renderer";
 
+import CustomEdge from "../Nodes/Custom/CustomEdge.component";
 import Sidebar from "./SideBar.component";
+import CustomNode from "../Nodes/Custom/Custom.component";
+import { GlobalContext } from "../../GlobalContext";
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
 
-const DnDFlow = ({ setSecondaryMap }) => {
-  const elements1 = [
+const edgeTypes = {
+  customedge: CustomEdge,
+};
+
+const nodeStyle = {
+  background: "#424242",
+  color: "#fff",
+  width: "250px",
+  border: "none",
+  borderRadius: 5,
+};
+
+const nodeTypes = {
+  custom: CustomNode,
+};
+
+const DnDFlow = ({ setSecondaryMap, showSecondaryMap }) => {
+  const context = useContext(GlobalContext);
+  const { nodeWidth, setNodeWidth } = context;
+
+  const nodeStyle = {
+    background: "#424242",
+    color: "#fff",
+    width: context.nodeWidth,
+    border: "none",
+    borderRadius: 5,
+  };
+
+  const initialNodes = [
     {
       id: "horizontal-1",
       sourcePosition: "right",
-      type: "input",
-      data: { label: "Question 1" },
+      type: "custom",
+      data: {
+        question: "Hey, welcome to this GoForm.",
+        questionNo: 1,
+      },
       position: { x: 0, y: 80 },
+      style: nodeStyle,
     },
+    {
+      id: "A",
+      type: "group",
+      data: { label: null },
+      position: { x: 300, y: 40 },
+      style: {
+        width: 580,
+        height: 140,
+        backgroundColor: "rgba(240,240,240,0.25)",
+      },
+    },
+
     {
       id: "horizontal-2",
       sourcePosition: "right",
       targetPosition: "left",
+      type: "custom",
       data: {
-        label: <div onClick={() => setSecondaryMap(true)}> Flow 1 </div>,
+        question: "What do we call you?",
+        questionNo: 2,
+        onClick: () => {
+          setSecondaryMap(true);
+        },
       },
-      position: { x: 250, y: 0 },
+      position: { x: 10, y: 40 },
+      style: nodeStyle,
+      parentNode: "A",
     },
     {
       id: "horizontal-3",
       sourcePosition: "right",
       targetPosition: "left",
+      type: "custom",
       data: {
-        label: <div onClick={() => setSecondaryMap(true)}>Flow 2</div>,
+        question: "What's your mobile number ?.",
+        questionNo: 3,
       },
-      position: { x: 250, y: 160 },
+      position: { x: 300, y: 40 },
+      style: nodeStyle,
+      parentNode: "A",
     },
     {
       id: "horizontal-4",
       sourcePosition: "right",
       targetPosition: "left",
-      data: { label: "Question 2" },
-      position: { x: 500, y: 0 },
+      type: "custom",
+      data: {
+        question: "What's your email ID?",
+        questionNo: 4,
+      },
+      position: { x: 950, y: 80 },
+      style: nodeStyle,
     },
-    {
-      id: "horizontal-5",
-      sourcePosition: "right",
-      targetPosition: "left",
-      data: { label: "Question 3" },
-      position: { x: 500, y: 100 },
-    },
-    {
-      id: "horizontal-6",
-      sourcePosition: "right",
-      targetPosition: "left",
-      data: { label: "Node 6" },
-      position: { x: 500, y: 230 },
-    },
+  ];
 
+  const initialEdges = [
     {
       id: "horizontal-e1-2",
       source: "horizontal-1",
       target: "horizontal-2",
-      animated: true,
+      type: "customedge",
     },
     {
-      id: "horizontal-e1-3",
-      source: "horizontal-1",
-      target: "horizontal-3",
-      animated: true,
-    },
-    {
-      id: "horizontal-e1-4",
+      id: "horizontal-e2-3",
       source: "horizontal-2",
+      target: "horizontal-3",
+      type: "customedge",
+    },
+    {
+      id: "horizontal-e3-4",
+      source: "horizontal-3",
       target: "horizontal-4",
-    },
-    {
-      id: "horizontal-e3-5",
-      source: "horizontal-3",
-      target: "horizontal-5",
-      animated: true,
-    },
-    {
-      id: "horizontal-e3-6",
-      source: "horizontal-3",
-      target: "horizontal-6",
-      animated: true,
-    },
-    {
-      id: "horizontal-e5-7",
-      source: "horizontal-5",
-      target: "horizontal-7",
-      animated: true,
-    },
-    {
-      id: "horizontal-e6-8",
-      source: "horizontal-6",
-      target: "horizontal-8",
-      animated: true,
+      type: "customedge",
     },
   ];
 
   const reactFlowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
-  const [elements, setElements] = useState(elements1);
 
-  const onConnect = (params) => setElements((els) => addEdge(params, els));
-  const onElementsRemove = (elementsToRemove) =>
-    setElements((els) => removeElements(elementsToRemove, els));
+  const [nodes, setElements, onNodesChange] = useNodesState(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
+  const onConnect = (params) => setEdges((els) => addEdge(params, els));
   const onLoad = (_reactFlowInstance) => {
     setReactFlowInstance(_reactFlowInstance);
     setTimeout(() => {
@@ -141,28 +167,46 @@ const DnDFlow = ({ setSecondaryMap }) => {
       position,
       sourcePosition: "right",
       targetPosition: "left",
-      data: { label: text },
+      style: nodeStyle,
+      data: { label: <CustomNode label={text} /> },
     };
 
     setElements((es) => es.concat(newNode));
   };
 
+  useEffect(() => {
+    setElements((nds) =>
+      nds.map((node) => {
+        if (node.type !== "group")
+          node.style = { ...node.style, width: nodeWidth };
+
+        return node;
+      })
+    );
+  }, [nodeWidth, setElements]);
+
   return (
     <ReactFlowProvider>
-      <div style={{ height: "50vh" }} ref={reactFlowWrapper}>
+      <div
+        style={{ height: !showSecondaryMap ? "100vh" : "50vh" }}
+        ref={reactFlowWrapper}
+      >
         <ReactFlow
-          elements={elements}
+          nodes={nodes}
+          edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          edgeTypes={edgeTypes}
           onConnect={onConnect}
-          onElementsRemove={onElementsRemove}
           onLoad={onLoad}
           onDrop={onDrop}
           onDragOver={onDragOver}
+          style={{ background: "#131516" }}
+          nodeTypes={nodeTypes}
         >
           <Controls />
-          <Background variant="lines" color="#E5E5E5" gap={1} size={0.5} />
         </ReactFlow>
       </div>
-      <Sidebar />
     </ReactFlowProvider>
   );
 };

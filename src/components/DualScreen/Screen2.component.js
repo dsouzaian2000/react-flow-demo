@@ -1,112 +1,103 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import ReactFlow, {
   ReactFlowProvider,
   addEdge,
-  removeElements,
   Controls,
-  Background,
+  useNodesState,
+  useEdgesState,
 } from "react-flow-renderer";
+
+import CustomEdge from "../Nodes/Custom/CustomEdge.component";
+import Sidebar from "./SideBar.component";
+import CustomNode from "../Nodes/Custom/Custom.component";
 import Button from "@mui/material/Button";
 
 import styles from "./DualScreen.module.css";
 
-let id = 0;
-const getId = () => `dndnode_${id++}`;
+const edgeTypes = {
+  customedge: CustomEdge,
+};
+
+const nodeStyle = {
+  background: "#424242",
+  color: "#fff",
+  width: "250px",
+  border: "none",
+  borderRadius: 5,
+};
+
+const nodeTypes = {
+  custom: CustomNode,
+};
+
+const initialNodes = [
+  {
+    id: "A",
+    type: "group",
+    data: { label: null },
+    position: { x: 0, y: 0 },
+    style: {
+      width: 270,
+      height: 240,
+    },
+  },
+  {
+    id: "B",
+    type: "custom",
+    data: {
+      question: "What's your mobile number ?.",
+      questionNo: 3,
+    },
+    position: { x: 10, y: 10 },
+    parentNode: "A",
+    extent: "parent",
+    style: nodeStyle,
+  },
+  {
+    id: "C",
+    type: "custom",
+    data: {
+      question: "What's your mobile number ?.",
+      questionNo: 3,
+    },
+    position: { x: 10, y: 90 },
+    parentNode: "A",
+    extent: "parent",
+    style: nodeStyle,
+  },
+];
+
+const initialEdges = [];
 
 const DnDFlow = ({ setSecondaryMap, setElements, elements }) => {
   const reactFlowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
-  const onConnect = (params) => setElements((els) => addEdge(params, els));
-  const onElementsRemove = (elementsToRemove) =>
-    setElements((els) => removeElements(elementsToRemove, els));
+
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+  const onConnect = (params) => setEdges((els) => addEdge(params, els));
 
   const onLoad = (_reactFlowInstance) => {
     setReactFlowInstance(_reactFlowInstance);
   };
 
-  const onDragOver = (event) => {
-    event.preventDefault();
-    event.dataTransfer.dropEffect = "move";
-  };
-
-  const onDrop = (event) => {
-    event.preventDefault();
-
-    const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
-    const type = event.dataTransfer.getData("application/reactflow-type");
-    const text = event.dataTransfer.getData("application/reactflow-text");
-
-    const xPosition = event.clientX - reactFlowBounds.left;
-    const yPosition = event.clientY - reactFlowBounds.top;
-
-    const position = reactFlowInstance.project({
-      x: event.clientX - reactFlowBounds.left,
-      y: event.clientY - reactFlowBounds.top,
-    });
-    const newNode = [
-      {
-        id: getId(),
-        type: "input",
-        position: {
-          x: xPosition,
-          y: yPosition,
-        },
-        sourcePosition: "right",
-        targetPosition: "left",
-        data: { label: "Flow 1" },
-      },
-      {
-        id: getId(),
-        type: "default",
-        position: {
-          x: xPosition + 250,
-          y: yPosition,
-        },
-        sourcePosition: "right",
-        targetPosition: "left",
-        data: { label: "Flow 2" },
-      },
-      {
-        id: getId(),
-        type: "output",
-        position: {
-          x: xPosition + 500,
-          y: yPosition,
-        },
-        sourcePosition: "right",
-        targetPosition: "left",
-        data: { label: "Flow 3" },
-      },
-      {
-        id: "horizontal-e6-8",
-        source: "dndnode_0",
-        target: "dndnode_1",
-      },
-      {
-        id: "horizontal-e6-8",
-        source: "dndnode_1",
-        target: "dndnode_2",
-      },
-    ];
-
-    console.log(newNode);
-
-    setElements((es) => es.concat(newNode));
-  };
-
   return (
     <ReactFlowProvider>
       <div
-        style={{ height: "50vh", borderTop: "solid 1px black" }}
+        style={{ height: "50vh", borderTop: "solid 1px #fff" }}
         ref={reactFlowWrapper}
       >
         <ReactFlow
-          elements={elements}
           onConnect={onConnect}
-          onElementsRemove={onElementsRemove}
           onLoad={onLoad}
-          onDrop={onDrop}
-          onDragOver={onDragOver}
+          nodes={nodes}
+          edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          edgeTypes={edgeTypes}
+          style={{ background: "#131516" }}
+          nodeTypes={nodeTypes}
         >
           <div className={styles.minimap_buttons}>
             <Button
@@ -117,8 +108,6 @@ const DnDFlow = ({ setSecondaryMap, setElements, elements }) => {
               X
             </Button>
           </div>
-          <Controls />
-          <Background variant="lines" color="#E5E5E5" gap={1} size={0.5} />
         </ReactFlow>
       </div>
     </ReactFlowProvider>

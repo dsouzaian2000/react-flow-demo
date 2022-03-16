@@ -1,0 +1,22 @@
+.node_container {
+  display: flex;
+  padding: 1rem;
+  align-items: center;
+}
+
+.question_no {
+  background-color: #ffe380;
+  color: #000;
+  border-radius: 3px;
+  margin-right: 0.5rem;
+  text-align: center;
+  padding: 3px 8px;
+}
+
+.question {
+  width: 75%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: left;
+}

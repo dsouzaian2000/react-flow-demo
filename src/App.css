@@ -9,3 +9,34 @@ body {
   width: 200px;
   justify-content: space-between;
 }
+
+.source,
+.target {
+  background-color: #33c9dc !important;
+  border: solid 1px black !important;
+  width: 10px !important;
+  height: 10px !important;
+}
+.target {
+  margin-left: 1px;
+}
+
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: #33c9dc !important;
+}
+.react-flow__connection-path {
+  stroke: #33c9dc !important;
+}
+#react-flow__arrowclosed polyline {
+  fill: #33c9dc !important;
+  stroke: #33c9dc !important;
+}
+.react-flow__edge-path {
+  cursor: pointer;
+  stroke-width: 2px !important;
+  stroke: #33c9dc !important;
+}
+
+.connection__start .react-flow__edges {
+  z-index: 4 !important;
+}
