@@ -33,12 +33,12 @@ const nodeTypes = {
 
 const DnDFlow = ({ setSecondaryMap, showSecondaryMap }) => {
   const context = useContext(GlobalContext);
-  const { nodeWidth, setNodeWidth } = context;
+  const { nodeWidth, setNodeWidth, groupWidth } = context;
 
   const nodeStyle = {
     background: "#424242",
     color: "#fff",
-    width: context.nodeWidth,
+    width: nodeWidth,
     border: "none",
     borderRadius: 5,
   };
@@ -61,7 +61,7 @@ const DnDFlow = ({ setSecondaryMap, showSecondaryMap }) => {
       data: { label: null },
       position: { x: 300, y: 40 },
       style: {
-        width: 580,
+        width: groupWidth,
         height: 140,
         backgroundColor: "rgba(240,240,240,0.25)",
       },
@@ -79,7 +79,7 @@ const DnDFlow = ({ setSecondaryMap, showSecondaryMap }) => {
           setSecondaryMap(true);
         },
       },
-      position: { x: 10, y: 40 },
+      position: { x: 20, y: 40 },
       style: nodeStyle,
       parentNode: "A",
     },
@@ -92,7 +92,7 @@ const DnDFlow = ({ setSecondaryMap, showSecondaryMap }) => {
         question: "What's your mobile number ?.",
         questionNo: 3,
       },
-      position: { x: 300, y: 40 },
+      position: { x: 290, y: 40 },
       style: nodeStyle,
       parentNode: "A",
     },
@@ -105,8 +105,9 @@ const DnDFlow = ({ setSecondaryMap, showSecondaryMap }) => {
         question: "What's your email ID?",
         questionNo: 4,
       },
-      position: { x: 950, y: 80 },
+      position: { x: 560, y: 40 },
       style: nodeStyle,
+      parentNode: "A",
     },
   ];
 
@@ -184,6 +185,17 @@ const DnDFlow = ({ setSecondaryMap, showSecondaryMap }) => {
       })
     );
   }, [nodeWidth, setElements]);
+
+  useEffect(() => {
+    setElements((nds) =>
+      nds.map((node) => {
+        if (node.type === "group")
+          node.style = { ...node.style, width: groupWidth };
+
+        return node;
+      })
+    );
+  }, [groupWidth, setElements]);
 
   return (
     <ReactFlowProvider>

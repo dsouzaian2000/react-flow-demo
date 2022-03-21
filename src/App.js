@@ -107,6 +107,8 @@ const App = () => {
 
   //state for adjusting width on zoom
   const [nodeWidth, setNodeWidth] = useState(250);
+  //state for adjusting width of group on zoom
+  const [groupWidth, setGroupWidth] = useState(830);
 
   return (
     <GlobalContext.Provider
@@ -119,6 +121,8 @@ const App = () => {
         setNodeElements,
         nodeWidth,
         setNodeWidth,
+        groupWidth,
+        setGroupWidth,
       }}
     >
       {component === 0 && <Default />}
